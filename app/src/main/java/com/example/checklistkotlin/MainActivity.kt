@@ -145,7 +145,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
-
                 itemLayout.addView(checkBox)
                 itemLayout.addView(deleteButton)
 
