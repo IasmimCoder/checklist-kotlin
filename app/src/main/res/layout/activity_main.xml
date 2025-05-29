@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="#FFF7F0"
-    >
+    android:background="#FFF7F0">
 
     <TextView
         android:id="@+id/titleText"
@@ -17,8 +16,7 @@
         android:textStyle="bold"
         android:textColor="#6B4C3B"
         android:paddingBottom="24dp"
-        android:fontFamily="sans-serif-medium"
-        />
+        android:fontFamily="sans-serif-medium" />
 
     <LinearLayout
         android:id="@+id/inputLayout"
@@ -47,8 +45,7 @@
             android:textColor="#6B4C3B"
             android:textColorHint="#B39887"
             android:fontFamily="sans-serif"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/addButton"
@@ -61,8 +58,7 @@
             android:fontFamily="sans-serif-medium"
             android:textAllCaps="false"
             android:paddingHorizontal="12dp"
-            android:layout_marginStart="8dp"
-            />
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 
     <ListView
@@ -72,7 +68,5 @@
         android:layout_weight="1"
         android:paddingTop="8dp"
         android:divider="#B89C72"
-        android:dividerHeight="1dp"
-        />
+        android:dividerHeight="1dp" />
 </LinearLayout>
-

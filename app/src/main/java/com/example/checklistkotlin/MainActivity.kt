@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
+import android.view.ViewGroup
+
 
 class MainActivity : AppCompatActivity() {
 
