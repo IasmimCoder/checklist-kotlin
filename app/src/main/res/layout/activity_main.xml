@@ -50,11 +50,11 @@
         <Button
             android:id="@+id/addButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="0.15"
             android:text="Adicionar"
             android:textColor="#FFF"
-            android:backgroundTint="#B89C72"
+            android:background="@drawable/button_ripple"
             android:fontFamily="sans-serif-medium"
             android:textAllCaps="false"
             android:paddingHorizontal="12dp"

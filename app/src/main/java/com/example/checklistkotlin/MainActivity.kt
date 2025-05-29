@@ -2,11 +2,9 @@ package com.example.checklistkotlin
 
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.setPadding
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 
@@ -48,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             val text = inputTask.text.toString().trim()
             if (text.isNotEmpty()) {
-                tasks.add(Task(text))
+                tasks.add(Task(text)) // Cria nova tarefa com done = false
                 adapter.notifyDataSetChanged()
                 inputTask.text.clear()
             } else {
@@ -127,7 +125,7 @@ class MainActivity : AppCompatActivity() {
             val task = tasks[position]
             viewHolder.checkBox.text = task.text
 
-            // Remove listener antigo antes de mudar o estado para evitar disparo indesejado
+            // Remove listener antigo antes de mudar o estado para evitar disparo indesejado/callback duplicado
             viewHolder.checkBox.setOnCheckedChangeListener(null)
             viewHolder.checkBox.isChecked = task.done  // Define o estado sem disparar listener
 
