@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
@@ -87,6 +88,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    //Ao clicar em qualquer item da lista, uma caixa de diálogo aparecerá com a tarefa atual preenchida.
+    //Você pode editar e salvar ou cancelar.
+    //O ListView será atualizado automaticamente.
+    private fun showEditDialog(position: Int) {
+        val editText = EditText(this).apply {
+            setText(tasks[position])
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Editar Tarefa")
+            .setView(editText)
+            .setPositiveButton("Salvar") { _, _ ->
+                val newText = editText.text.toString().trim()
+                if (newText.isNotEmpty()) {
+                    tasks[position] = newText
+                    adapter.notifyDataSetChanged()
+                } else {
+                    Toast.makeText(this, "A tarefa não pode estar vazia.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
 
     // TaskAdapter é uma classe interna que estende BaseAdapter. Ela fornece os métodos necessários para gerenciar a lista de tarefas.
     inner class TaskAdapter : BaseAdapter() {
@@ -120,6 +144,8 @@ class MainActivity : AppCompatActivity() {
                     setBackgroundResource(0)
                 }
 
+
+
                 itemLayout.addView(checkBox)
                 itemLayout.addView(deleteButton)
 
@@ -137,6 +163,10 @@ class MainActivity : AppCompatActivity() {
             viewHolder.deleteButton.setOnClickListener {
                 tasks.removeAt(position)
                 notifyDataSetChanged()
+            }
+
+            viewHolder.checkBox.setOnClickListener {
+                showEditDialog(position)
             }
 
             return view
