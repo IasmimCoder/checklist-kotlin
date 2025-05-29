@@ -1,46 +1,46 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
-
+    android:padding="16dp"
+    >
     <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_gravity="center"
-        android:text="Checklist do Dia"
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Checklist de Atividades Diárias"
         android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <CheckBox
-        android:id="@+id/cbWakeUp"
-        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"
+        />
+    <LinearLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Acordar cedo" />
+        android:orientation="horizontal" >
 
-    <CheckBox
-        android:id="@+id/cbBreakfast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tomar café da manhã" />
+        <EditText
+            android:id="@+id/inputTask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Adicionar nova tarefa"
+            android:inputType="text"
+            />
 
-    <CheckBox
-        android:id="@+id/cbStudy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Estudar" />
-
-    <CheckBox
-        android:id="@+id/cbWorkout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fazer exercício" />
-
-    <CheckBox
-        android:id="@+id/cbWater"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Beber água" />
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adicionar"
+            />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/taskListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        />
 </LinearLayout>
