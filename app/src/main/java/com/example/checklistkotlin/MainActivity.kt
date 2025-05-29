@@ -10,13 +10,15 @@ import androidx.core.view.setPadding
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 
+//classe Task que armazena o texto e o status done: Boolean
+data class Task(var text: String, var done: Boolean = false)
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
     private lateinit var addButton: Button // botão para adicionar novas tarefas.
     private lateinit var inputTask: EditText // campo de texto para digitar a tarefa.
-    private val tasks = ArrayList<String>() // lista que armazena as strings das tarefas adicionadas.
+    private val tasks = ArrayList<Task>() // lista que armazena as tarefas adicionadas.
     private lateinit var adapter: TaskAdapter
 
     //O método onCreate é chamado quando a Activity é criada.
@@ -24,51 +26,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Cria um layout vertical que será o container principal da tela, com padding 32 pixels.
-        val rootLayout = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(32)
-        }
+        // Usa seu layout XML
+        setContentView(R.layout.activity_main)
 
-        // Cria um título na parte superior e adiciona ao layout principal.
-        val title = TextView(this).apply {
-            text = "Checklist de Atividades Diárias"
-            textSize = 24f
-            setPadding(0, 0, 0, 24)
-        }
-        rootLayout.addView(title)
 
-        // Um layout horizontal para o campo de texto e o botão de adicionar lado a lado.
-        val inputLayout = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-        }
+        // Referencia views do XML
+        listView = findViewById(R.id.taskListView)
+        addButton = findViewById(R.id.addButton)
+        inputTask = findViewById(R.id.inputTask)
 
-        // Campo onde o usuário digita sua nova tarefa, ocupando o máximo de espaço possível na horizontal.
-        inputTask = EditText(this).apply {
-            hint = "Adicionar nova tarefa"
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-            inputType = InputType.TYPE_CLASS_TEXT
-        }
-
-        //Botão para adicionar a tarefa digitada
-        addButton = Button(this).apply {
-            text = "Adicionar"
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        }
-
-        //O campo de texto e o botão são adicionados ao layout de entrada, que por sua vez é adicionado ao layout principal.
-        inputLayout.addView(inputTask)
-        inputLayout.addView(addButton)
-
-        rootLayout.addView(inputLayout)
-
-        // Um ListView é criado para exibir a lista de tarefas e adicionado ao layout principal.
-        listView = ListView(this)
-        rootLayout.addView(listView)
-
-        // O layout principal é definido como a visualização da Activity.
-        // Um adaptador (TaskAdapter) é criado e associado ao ListView.
-        setContentView(rootLayout)
+        adapter = TaskAdapter()
+        listView.adapter = adapter
 
         adapter = TaskAdapter()
         listView.adapter = adapter
@@ -78,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         // Se não estiver, a tarefa é adicionada à lista e a interface é atualizada.
         // Caso contrário, uma mensagem de erro é exibida.
         addButton.setOnClickListener {
-            val taskText = inputTask.text.toString().trim()
-            if (taskText.isNotEmpty()) {
-                tasks.add(taskText)
+            val text = inputTask.text.toString().trim()
+            if (text.isNotEmpty()) {
+                tasks.add(Task(text))
                 adapter.notifyDataSetChanged()
                 inputTask.text.clear()
             } else {
@@ -93,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     //O ListView será atualizado automaticamente.
     private fun showEditDialog(position: Int) {
         val editText = EditText(this).apply {
-            setText(tasks[position])
+            setText(tasks[position].text)
         }
 
         AlertDialog.Builder(this)
@@ -102,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Salvar") { _, _ ->
                 val newText = editText.text.toString().trim()
                 if (newText.isNotEmpty()) {
-                    tasks[position] = newText
+                    tasks[position].text = newText
                     adapter.notifyDataSetChanged()
                 } else {
                     Toast.makeText(this, "A tarefa não pode estar vazia.", Toast.LENGTH_SHORT).show()
@@ -141,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
                 val deleteButton = ImageButton(this@MainActivity).apply {
                     setImageResource(android.R.drawable.ic_menu_delete)
-                    setBackgroundResource(0)
+                    setBackgroundColor(android.graphics.Color.TRANSPARENT)
                 }
 
 
@@ -157,8 +125,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             val task = tasks[position]
-            viewHolder.checkBox.text = task
-            viewHolder.checkBox.isChecked = false
+            viewHolder.checkBox.text = task.text
+
+            // Remove listener antigo antes de mudar o estado para evitar disparo indesejado
+            viewHolder.checkBox.setOnCheckedChangeListener(null)
+            viewHolder.checkBox.isChecked = task.done  // Define o estado sem disparar listener
+
+            viewHolder.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                task.done = isChecked // Atualiza o objeto
+            }
+
             viewHolder.deleteButton.setOnClickListener {
                 tasks.removeAt(position)
                 notifyDataSetChanged()
@@ -166,6 +142,7 @@ class MainActivity : AppCompatActivity() {
 
             viewHolder.checkBox.setOnClickListener {
                 showEditDialog(position)
+                true
             }
 
             return view
