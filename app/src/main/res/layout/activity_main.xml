@@ -18,13 +18,25 @@
         android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="sans-serif-light"
+        android:lineSpacingExtra="8sp"
         android:paddingBottom="24dp"
         android:text="Daily Tasks"
         android:textAlignment="center"
         android:textColor="#6B4C3B"
         android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:typeface="normal" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Stay organized and productive"
+        android:textAlignment="center"
+        android:textColor="#6B4C3B" />
 
     <LinearLayout
         android:id="@+id/inputLayout"
@@ -43,12 +55,12 @@
 
         <EditText
             android:id="@+id/inputTask"
-            android:layout_width="0dp"
+            android:layout_width="276dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.85"
             android:background="@drawable/edittext_background"
             android:fontFamily="sans-serif"
-            android:hint="Adicionar nova tarefa"
+            android:hint="Add new task"
             android:inputType="text"
             android:padding="12dp"
             android:textColor="#6B4C3B"
@@ -57,16 +69,18 @@
 
         <Button
             android:id="@+id/addButton"
-            android:layout_width="68dp"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="0.15"
-            android:background="@drawable/button_ripple"
             android:fontFamily="sans-serif-medium"
             android:paddingHorizontal="12dp"
-            android:text="Adicionar"
+            android:textAlignment="textEnd"
             android:textAllCaps="false"
-            android:textColor="#FFF" />
+            android:textColor="#FFF"
+            android:textColorLink="#EFEBEB"
+            app:icon="@android:drawable/ic_input_add" />
     </LinearLayout>
 
     <ListView
@@ -78,4 +92,5 @@
         android:divider="#B89C72"
         android:dividerHeight="1dp"
         android:paddingTop="8dp" />
+
 </LinearLayout>
