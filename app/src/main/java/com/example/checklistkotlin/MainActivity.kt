@@ -1,6 +1,5 @@
 package com.example.checklistkotlin
 
-
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -16,28 +15,41 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
     private lateinit var addButton: Button // botão para adicionar novas tarefas.
     private lateinit var inputTask: EditText // campo de texto para digitar a tarefa.
-    private val tasks = ArrayList<Task>() // lista que armazena as tarefas adicionadas.
+    private lateinit var tasks: MutableList<Task> // lista que armazena as tarefas adicionadas.
     private lateinit var adapter: TaskAdapter
+    private lateinit var taskStorage: TaskStorage
 
     //O método onCreate é chamado quando a Activity é criada.
     // Aqui, a interface do usuário é configurada.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Usa seu layout XML
+        //método usado no Android para definir qual layout XML será
+        // exibido como a interface de usuário (UI) principal de uma Activity.
+        //“Mostre a interface definida no arquivo activity_main.xml nesta tela (MainActivity).”
         setContentView(R.layout.activity_main)
-
 
         // Referencia views do XML
         listView = findViewById(R.id.taskListView)
         addButton = findViewById(R.id.addButton)
         inputTask = findViewById(R.id.inputTask)
 
-        adapter = TaskAdapter()
-        listView.adapter = adapter
+        // integração do app com o SharedPreferences usando a classe TaskStorage
+        // passa a activity em instancia da TaskStorage
+        // Isso é necessário porque o SharedPreferences precisa de um Context para funcionar.
+        //Assim, poder salvar e carregar tarefas da memória persistente (armazenamento interno do app).
+        taskStorage = TaskStorage(this)
+
+        //Chama o método loadTasks() da TaskStorage que
+        //Lê as tarefas salvas no SharedPreferences
+        //Usa Gson para converter o JSON de volta em uma List<Task>
+        // usa .toMutableList() para transformar a lista carregada em uma lista mutável, permitindo adicionar, editar e remover tarefas.
+        tasks = taskStorage.loadTasks().toMutableList()
 
         adapter = TaskAdapter()
         listView.adapter = adapter
+
+
 
         //Um listener é configurado para o botão de adicionar.
         // Quando clicado, ele verifica se o campo de texto não está vazio.
@@ -47,8 +59,9 @@ class MainActivity : AppCompatActivity() {
             val text = inputTask.text.toString().trim()
             if (text.isNotEmpty()) {
                 tasks.add(Task(text)) // Cria nova tarefa com done = false
-                adapter.notifyDataSetChanged()
                 inputTask.text.clear()
+                adapter.notifyDataSetChanged()
+                taskStorage.saveTasks(tasks)  // salva ao adicionar
             } else {
                 Toast.makeText(this, "Digite uma tarefa para adicionar.", Toast.LENGTH_SHORT).show()
             }
@@ -70,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 if (newText.isNotEmpty()) {
                     tasks[position].text = newText
                     adapter.notifyDataSetChanged()
+                    taskStorage.saveTasks(tasks) // salva ao editar
                 } else {
                     Toast.makeText(this, "A tarefa não pode estar vazia.", Toast.LENGTH_SHORT).show()
                 }
@@ -131,11 +145,13 @@ class MainActivity : AppCompatActivity() {
 
             viewHolder.checkBox.setOnCheckedChangeListener { _, isChecked ->
                 task.done = isChecked // Atualiza o objeto
+                taskStorage.saveTasks(tasks) // salva ao marcar/desmarcar
             }
 
             viewHolder.deleteButton.setOnClickListener {
                 tasks.removeAt(position)
                 notifyDataSetChanged()
+                taskStorage.saveTasks(tasks) // salva ao deletar
             }
 
             viewHolder.checkBox.setOnClickListener {

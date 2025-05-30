@@ -10,7 +10,11 @@ class TaskStorage(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("TaskPrefs", Context.MODE_PRIVATE)
     private val gson = Gson()
 
-    private val TASKS_KEY = "task_list"
+    //task key é uma constante para melhorar a legibilidade
+    // e impedir modificações acidentais no valor da chave.
+    companion object {
+        private const val TASKS_KEY = "task_list"
+    }
 
     fun saveTasks(taskList: List<Task>) {
         val json = gson.toJson(taskList)
