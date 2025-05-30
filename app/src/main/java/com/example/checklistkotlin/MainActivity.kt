@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         adapter = TaskAdapter()
         listView.adapter = adapter
 
-
-
         //Um listener é configurado para o botão de adicionar.
         // Quando clicado, ele verifica se o campo de texto não está vazio.
         // Se não estiver, a tarefa é adicionada à lista e a interface é atualizada.
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     //Ao clicar em qualquer item da lista, uma caixa de diálogo aparecerá com a tarefa atual preenchida.
     //Você pode editar e salvar ou cancelar.
     //O ListView será atualizado automaticamente.
