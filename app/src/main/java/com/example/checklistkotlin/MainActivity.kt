@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.google.gson.Gson
 
 //classe Task que armazena o texto e o status done: Boolean
 data class Task(var text: String, var done: Boolean = false)
@@ -13,16 +14,27 @@ data class Task(var text: String, var done: Boolean = false)
 class MainActivity : AppCompatActivity() {
 
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
-    private lateinit var addButton: Button // botão para adicionar novas tarefas.
     private lateinit var inputTask: EditText // campo de texto para digitar a tarefa.
+    private lateinit var addButton: Button // botão para adicionar novas tarefas.
+    private lateinit var filterSpinner: Spinner
+
+
     private lateinit var tasks: MutableList<Task> // lista que armazena as tarefas adicionadas.
     private lateinit var adapter: TaskAdapter
-    private lateinit var taskStorage: TaskStorage
+    private val gson = Gson()
+    private var currentFilter = 0 // 0: Todas, 1: Concluídas, 2: Pendentes
 
-    //para filtros
-    private lateinit var filterSpinner: Spinner
+    private lateinit var taskStorage: TaskStorage
     private var filteredTasks = mutableListOf<Task>()
-    private var currentFilter = 0
+
+    data class FilterItem(val iconResId: Int, val label: String)
+
+    // Lista com ícones e labels para o spinner
+    private val filterItems = listOf(
+        FilterItem(R.drawable.ic_all, "Todas"),
+        FilterItem(R.drawable.ic_done, "Concluídas"),
+        FilterItem(R.drawable.ic_pending, "Pendentes")
+    )
 
     //O método onCreate é chamado quando a Activity é criada.
     // Aqui, a interface do usuário é configurada.
@@ -74,10 +86,51 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     //funcao de filtro
     private fun setupSpinner() {
+        val spinnerAdapter = object : ArrayAdapter<FilterItem>(
+            this,
+            R.layout.custom_spinner_item,
+            filterItems
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                return createCustomView(position, convertView, parent)
+            }
+
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                return createCustomView(position, convertView, parent)
+            }
+
+            private fun createCustomView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = layoutInflater.inflate(R.layout.custom_spinner_item, parent, false)
+                val icon = view.findViewById<ImageView>(R.id.spinnerIcon)
+                val label = view.findViewById<TextView>(R.id.spinnerText)
+
+                val item = getItem(position)
+                icon.setImageResource(item?.iconResId ?: 0)
+                label.text = item?.label ?: ""
+
+                return view
+            }
+        }
+        filterSpinner.adapter = spinnerAdapter
+
         filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 currentFilter = position
                 applyFilter()
             }
@@ -186,9 +239,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             // editar tarefa com clique longo no item da lista
-            view.setOnLongClickListener {
-                val originalPosition = tasks.indexOf(filteredTasks[position])
-                showEditDialog(originalPosition)
+            view.setOnClickListener {
+                val taskToEdit = filteredTasks[position]
+                val originalPosition = tasks.indexOfFirst { it === taskToEdit }
+                if (originalPosition != -1) {
+                    showEditDialog(originalPosition)
+                } else {
+                    Toast.makeText(this@MainActivity, "Erro ao editar tarefa", Toast.LENGTH_SHORT).show()
+                }
                 true
             }
 

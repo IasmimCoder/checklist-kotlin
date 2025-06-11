@@ -28,15 +28,15 @@
         android:textStyle="bold"
         android:typeface="normal" />
 
-    <EditText
-        android:id="@+id/editTextText"
+    <TextView
+        android:id="@+id/subtitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
         android:text="Stay organized and productive"
         android:textAlignment="center"
-        android:textColor="#6B4C3B" />
+        android:textColor="#6B4C3B"
+        android:textSize="16sp"
+        android:paddingBottom="24dp" />
 
     <LinearLayout
         android:id="@+id/inputLayout"
@@ -67,29 +67,29 @@
             android:textColorHint="#B39887"
             android:textSize="16sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addButton"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_weight="0.15"
-            android:fontFamily="sans-serif-medium"
-            android:paddingHorizontal="12dp"
-            android:textAlignment="textEnd"
-            android:textAllCaps="false"
-            android:textColor="#FFF"
-            android:textColorLink="#EFEBEB"
-            app:icon="@android:drawable/ic_input_add" />
+            android:text=""
+            android:contentDescription="Adicionar"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconTint="@android:color/white"
+            app:backgroundTint="#6B4C3B"
+            app:cornerRadius="12dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart" />
     </LinearLayout>
 
     <Spinner
         android:id="@+id/filterSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:entries="@array/filter_options"
-        />
+        android:layout_marginBottom="16dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:padding="8dp"
+        android:spinnerMode="dropdown" />
 
     <ListView
         android:id="@+id/taskListView"
