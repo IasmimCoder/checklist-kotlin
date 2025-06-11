@@ -19,6 +19,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: TaskAdapter
     private lateinit var taskStorage: TaskStorage
 
+    //para filtros
+    private lateinit var filterSpinner: Spinner
+    private var filteredTasks = mutableListOf<Task>()
+    private var currentFilter = 0
+
     //O método onCreate é chamado quando a Activity é criada.
     // Aqui, a interface do usuário é configurada.
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         listView = findViewById(R.id.taskListView)
         addButton = findViewById(R.id.addButton)
         inputTask = findViewById(R.id.inputTask)
+        filterSpinner = findViewById(R.id.filterSpinner)
 
         // integração do app com o SharedPreferences usando a classe TaskStorage
         // passa a activity em instancia da TaskStorage
@@ -49,6 +55,9 @@ class MainActivity : AppCompatActivity() {
         adapter = TaskAdapter()
         listView.adapter = adapter
 
+        setupSpinner()
+        applyFilter()
+
         //Um listener é configurado para o botão de adicionar.
         // Quando clicado, ele verifica se o campo de texto não está vazio.
         // Se não estiver, a tarefa é adicionada à lista e a interface é atualizada.
@@ -58,12 +67,33 @@ class MainActivity : AppCompatActivity() {
             if (text.isNotEmpty()) {
                 tasks.add(Task(text)) // Cria nova tarefa com done = false
                 inputTask.text.clear()
-                adapter.notifyDataSetChanged()
-                taskStorage.saveTasks(tasks)  // salva ao adicionar
+                taskStorage.saveTasks(tasks) // salva ao adicionar
+                applyFilter()
             } else {
                 Toast.makeText(this, "Digite uma tarefa para adicionar.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    //funcao de filtro
+    private fun setupSpinner() {
+        filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                currentFilter = position
+                applyFilter()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    //funcao de filtro
+    private fun applyFilter() {
+        filteredTasks = when (currentFilter) {
+            1 -> tasks.filter { it.done }.toMutableList()
+            2 -> tasks.filter { !it.done }.toMutableList()
+            else -> tasks.toMutableList()
+        }
+        adapter.notifyDataSetChanged()
     }
 
     //Ao clicar em qualquer item da lista, uma caixa de diálogo aparecerá com a tarefa atual preenchida.
@@ -81,8 +111,8 @@ class MainActivity : AppCompatActivity() {
                 val newText = editText.text.toString().trim()
                 if (newText.isNotEmpty()) {
                     tasks[position].text = newText
-                    adapter.notifyDataSetChanged()
                     taskStorage.saveTasks(tasks) // salva ao editar
+                    applyFilter() // ← Corrige a lista filtrada após edição
                 } else {
                     Toast.makeText(this, "A tarefa não pode estar vazia.", Toast.LENGTH_SHORT).show()
                 }
@@ -93,9 +123,9 @@ class MainActivity : AppCompatActivity() {
 
     // TaskAdapter é uma classe interna que estende BaseAdapter. Ela fornece os métodos necessários para gerenciar a lista de tarefas.
     inner class TaskAdapter : BaseAdapter() {
-        override fun getCount(): Int = tasks.size
+        override fun getCount(): Int = filteredTasks.size
 
-        override fun getItem(position: Int): Any = tasks[position]
+        override fun getItem(position: Int): Any = filteredTasks[position]
 
         override fun getItemId(position: Int): Long = position.toLong()
 
@@ -135,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 viewHolder = view.tag as ViewHolder
             }
 
-            val task = tasks[position]
+            val task = filteredTasks[position]
             viewHolder.checkBox.text = task.text
 
             // Remove listener antigo antes de mudar o estado para evitar disparo indesejado/callback duplicado
@@ -143,18 +173,22 @@ class MainActivity : AppCompatActivity() {
             viewHolder.checkBox.isChecked = task.done  // Define o estado sem disparar listener
 
             viewHolder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                task.done = isChecked // Atualiza o objeto
-                taskStorage.saveTasks(tasks) // salva ao marcar/desmarcar
+                task.done = isChecked
+                taskStorage.saveTasks(tasks)
+                applyFilter()
             }
 
             viewHolder.deleteButton.setOnClickListener {
-                tasks.removeAt(position)
-                notifyDataSetChanged()
+                val taskToRemove = filteredTasks[position]
+                tasks.remove(taskToRemove)
+                applyFilter()
                 taskStorage.saveTasks(tasks) // salva ao deletar
             }
 
-            viewHolder.checkBox.setOnClickListener {
-                showEditDialog(position)
+            // editar tarefa com clique longo no item da lista
+            view.setOnLongClickListener {
+                val originalPosition = tasks.indexOf(filteredTasks[position])
+                showEditDialog(originalPosition)
                 true
             }
 

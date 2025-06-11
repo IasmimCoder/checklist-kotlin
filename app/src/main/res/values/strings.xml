@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ChecklistKotlin</string>
+    <string-array name="filter_options">
+        <item>Todas</item>
+        <item>Concluídas</item>
+        <item>Pendentes</item>
+    </string-array>
 </resources>
