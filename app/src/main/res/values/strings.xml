@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ChecklistKotlin</string>
+    <string name="logo_descricao">Logo do aplicativo Checklist</string>
+    <string name="filter_icon">Ícone do filtro</string>
+    <string name="add_task_hint">Digite uma tarefa</string>
+    <string name="add_task_button">Adicionar</string>
+    <string name="edit_task_title">Editar Tarefa</string>
+    <string name="save_button">Salvar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="empty_task_error">A tarefa não pode estar vazia.</string>
+    <string name="empty_task_toast">Digite uma tarefa para adicionar.</string>
+    <string name="filter_all">Todas</string>
+    <string name="filter_done">Concluídas</string>
+    <string name="filter_pending">Pendentes</string>
 </resources>
