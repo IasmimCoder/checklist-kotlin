@@ -4,7 +4,8 @@ Aplicativo Android desenvolvido em Kotlin que permite ao usuário marcar tarefas
 
 ## Funcionalidades
 
-- Marcar e desmarcar tarefas do dia
+- Marcar e desmarcar tarefas do dia como concluidas
+- Tarefas filtradas por Todas, Pendentes e Concluídas
 - Salvamento do estado das tarefas utilizando SharedPreferences
 
 ## Tecnologias Utilizadas
