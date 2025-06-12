@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ChecklistKotlin</string>
+    <string name="logo_descricao">Logo do aplicativo Checklist</string>
     <string name="filter_icon">Ícone do filtro</string>
     <string name="add_task_hint">Digite uma tarefa</string>
     <string name="add_task_button">Adicionar</string>

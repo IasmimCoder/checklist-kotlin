@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -7,18 +8,49 @@
     android:background="@color/surface"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/logo_descricao"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/output_onlinepngtools" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Daily Taks"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/textPrimary"
+        android:textColor="@color/textPrimary"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:backgroundTint="@color/textPrimary"
+        android:text="Stay organized and productive"
+        android:textAlignment="center"
+        android:textColor="@color/textPrimary"
+        android:textStyle="italic" />
+
     <!-- Campo para digitar a tarefa -->
     <EditText
         android:id="@+id/inputTask"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
+        android:backgroundTint="@color/textPrimary"
         android:hint="Digite a tarefa"
         android:inputType="text"
         android:padding="12dp"
-        android:backgroundTint="@color/textPrimary"
-        android:textColor="@color/textPrimary" />
+        android:textColor="@color/textPrimary"
+        android:textColorHint="@color/textSecondary" />
 
-    <!-- Botão para adicionar tarefa -->
     <Button
         android:id="@+id/addButton"
         android:layout_width="match_parent"
