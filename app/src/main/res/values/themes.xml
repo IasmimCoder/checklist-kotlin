@@ -1,9 +1,41 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ChecklistKotlin" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- Tema base com cores personalizadas, herdando do Material3 Light -->
+    <style name="Base.Theme.ChecklistKotlin" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Cor do fundo da janela -->
+        <item name="android:windowBackground">@color/surface</item>
+
+        <!-- Cores principais -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primaryDark</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Cor para elementos secundários, como textos e ícones -->
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorOnSecondary">@android:color/black</item>
+
+        <!-- Cor para o texto principal -->
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+
+        <!-- Cor para o texto secundário -->
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+
+        <!-- Cor do destaque para botões e seleções -->
+        <item name="colorAccent">@color/primary</item>
+
+        <!-- Personalizações extras -->
+        <item name="android:buttonStyle">@style/Widget.Material3.Button</item>
+
+        <!-- Usado para barras de status, navegação, etc. -->
+        <item name="android:statusBarColor">@color/primaryDark</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+
+
+        <!-- Para desabilitar a action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Tema do app, herdando do tema base -->
     <style name="Theme.ChecklistKotlin" parent="Base.Theme.ChecklistKotlin" />
 </resources>

@@ -1,103 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAF8F7"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:background="@color/surface"
+    android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <!-- Campo para digitar a tarefa -->
+    <EditText
+        android:id="@+id/inputTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/output_onlinepngtools" />
-
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:lineSpacingExtra="8sp"
-        android:paddingBottom="24dp"
-        android:text="Daily Tasks"
-        android:textAlignment="center"
-        android:textColor="#6B4C3B"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:typeface="normal" />
-
-    <TextView
-        android:id="@+id/subtitleText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Stay organized and productive"
-        android:textAlignment="center"
-        android:textColor="#6B4C3B"
-        android:textSize="16sp"
-        android:paddingBottom="24dp" />
-
-    <LinearLayout
-        android:id="@+id/inputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="#F2F2F0"
-        android:clipToPadding="false"
-        android:elevation="2dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:hint="Digite a tarefa"
+        android:inputType="text"
         android:padding="12dp"
-        android:weightSum="1">
+        android:backgroundTint="@color/textPrimary"
+        android:textColor="@color/textPrimary" />
 
-        <EditText
-            android:id="@+id/inputTask"
-            android:layout_width="276dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.85"
-            android:background="@drawable/edittext_background"
-            android:fontFamily="sans-serif"
-            android:hint="Add new task"
-            android:inputType="text"
-            android:padding="12dp"
-            android:textColor="#6B4C3B"
-            android:textColorHint="#B39887"
-            android:textSize="16sp" />
+    <!-- Botão para adicionar tarefa -->
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adicionar"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/primary"
+        android:textColor="@android:color/white" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
+    <!-- Filtros: Todas, Concluídas, Pendentes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/filterAll"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text=""
-            android:contentDescription="Adicionar"
-            app:icon="@android:drawable/ic_input_add"
-            app:iconTint="@android:color/white"
-            app:backgroundTint="#6B4C3B"
-            app:cornerRadius="12dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart" />
+            android:text="Todas"
+            android:textColor="@color/textPrimary"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/filterDone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Concluídas"
+            android:textColor="@color/textPrimary"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/filterPending"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Pendentes"
+            android:textColor="@color/textPrimary"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/filterSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:padding="8dp"
-        android:spinnerMode="dropdown" />
-
+    <!-- Lista de tarefas -->
     <ListView
         android:id="@+id/taskListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:cacheColorHint="#E61212"
-        android:divider="#B89C72"
+        android:divider="@color/primary"
         android:dividerHeight="1dp"
         android:paddingTop="8dp" />
 

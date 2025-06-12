@@ -16,8 +16,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
     private lateinit var inputTask: EditText // campo de texto para digitar a tarefa.
     private lateinit var addButton: Button // botão para adicionar novas tarefas.
-    private lateinit var filterSpinner: Spinner
 
+    private lateinit var filterPending: TextView
+    private lateinit var filterDone: TextView
+    private lateinit var filterAll: TextView
 
     private lateinit var tasks: MutableList<Task> // lista que armazena as tarefas adicionadas.
     private lateinit var adapter: TaskAdapter
@@ -50,7 +52,10 @@ class MainActivity : AppCompatActivity() {
         listView = findViewById(R.id.taskListView)
         addButton = findViewById(R.id.addButton)
         inputTask = findViewById(R.id.inputTask)
-        filterSpinner = findViewById(R.id.filterSpinner)
+
+        filterPending = findViewById(R.id.filterPending)
+        filterDone = findViewById(R.id.filterDone)
+        filterAll = findViewById(R.id.filterAll)
 
         // integração do app com o SharedPreferences usando a classe TaskStorage
         // passa a activity em instancia da TaskStorage
@@ -67,8 +72,8 @@ class MainActivity : AppCompatActivity() {
         adapter = TaskAdapter()
         listView.adapter = adapter
 
-        setupSpinner()
         applyFilter()
+        highlightFilter()
 
         //Um listener é configurado para o botão de adicionar.
         // Quando clicado, ele verifica se o campo de texto não está vazio.
@@ -85,57 +90,23 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Digite uma tarefa para adicionar.", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
-    //funcao de filtro
-    private fun setupSpinner() {
-        val spinnerAdapter = object : ArrayAdapter<FilterItem>(
-            this,
-            R.layout.custom_spinner_item,
-            filterItems
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                return createCustomView(position, convertView, parent)
-            }
-
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
-                return createCustomView(position, convertView, parent)
-            }
-
-            private fun createCustomView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
-                val view = layoutInflater.inflate(R.layout.custom_spinner_item, parent, false)
-                val icon = view.findViewById<ImageView>(R.id.spinnerIcon)
-                val label = view.findViewById<TextView>(R.id.spinnerText)
-
-                val item = getItem(position)
-                icon.setImageResource(item?.iconResId ?: 0)
-                label.text = item?.label ?: ""
-
-                return view
-            }
+        filterPending.setOnClickListener {
+            currentFilter = 2
+            applyFilter()
+            highlightFilter()
         }
-        filterSpinner.adapter = spinnerAdapter
 
-        filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                currentFilter = position
-                applyFilter()
-            }
+        filterDone.setOnClickListener {
+            currentFilter = 1
+            applyFilter()
+            highlightFilter()
+        }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+        filterAll.setOnClickListener {
+            currentFilter = 0
+            applyFilter()
+            highlightFilter()
         }
     }
 
@@ -147,6 +118,15 @@ class MainActivity : AppCompatActivity() {
             else -> tasks.toMutableList()
         }
         adapter.notifyDataSetChanged()
+    }
+
+    private fun highlightFilter() {
+        val defaultColor = getColor(R.color.textPrimary)
+        val selectedColor = getColor(R.color.primary)
+
+        filterAll.setTextColor(if (currentFilter == 0) selectedColor else defaultColor)
+        filterDone.setTextColor(if (currentFilter == 1) selectedColor else defaultColor)
+        filterPending.setTextColor(if (currentFilter == 2) selectedColor else defaultColor)
     }
 
     //Ao clicar em qualquer item da lista, uma caixa de diálogo aparecerá com a tarefa atual preenchida.
@@ -167,7 +147,8 @@ class MainActivity : AppCompatActivity() {
                     taskStorage.saveTasks(tasks) // salva ao editar
                     applyFilter() // ← Corrige a lista filtrada após edição
                 } else {
-                    Toast.makeText(this, "A tarefa não pode estar vazia.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "A tarefa não pode estar vazia.", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             .setNegativeButton("Cancelar", null)
@@ -192,13 +173,19 @@ class MainActivity : AppCompatActivity() {
             if (convertView == null) {
                 val itemLayout = LinearLayout(this@MainActivity).apply {
                     orientation = LinearLayout.HORIZONTAL
+                    setBackgroundColor(getColor(R.color.surface))
                     setPadding(16, 16, 16, 16)
-                    layoutParams = AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT)
+                    layoutParams = AbsListView.LayoutParams(
+                        AbsListView.LayoutParams.MATCH_PARENT,
+                        AbsListView.LayoutParams.WRAP_CONTENT
+                    )
                 }
 
                 val checkBox = CheckBox(this@MainActivity).apply {
-                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                    layoutParams =
+                        LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                     textSize = 18f
+                    setTextColor(getColor(R.color.textPrimary))
                 }
 
                 val deleteButton = ImageButton(this@MainActivity).apply {
@@ -245,9 +232,9 @@ class MainActivity : AppCompatActivity() {
                 if (originalPosition != -1) {
                     showEditDialog(originalPosition)
                 } else {
-                    Toast.makeText(this@MainActivity, "Erro ao editar tarefa", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Erro ao editar tarefa", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                true
             }
 
             return view
@@ -258,3 +245,4 @@ class MainActivity : AppCompatActivity() {
         inner class ViewHolder(val checkBox: CheckBox, val deleteButton: ImageButton)
     }
 }
+
