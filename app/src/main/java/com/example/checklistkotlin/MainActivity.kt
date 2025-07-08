@@ -1,5 +1,6 @@
 package com.example.checklistkotlin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -7,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
