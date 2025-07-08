@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 
-//classe Task que armazena o texto e o status done: Boolean
-data class Task(var text: String, var done: Boolean = false)
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
