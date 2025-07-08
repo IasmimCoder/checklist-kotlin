@@ -45,6 +45,27 @@ class MainActivity : AppCompatActivity() {
         //“Mostre a interface definida no arquivo activity_main.xml nesta tela (MainActivity).”
         setContentView(R.layout.activity_main)
 
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+    // Marca a aba atual como selecionada (opcional)
+            bottomNavigation.selectedItemId = R.id.nav_tasks
+
+            bottomNavigation.setOnItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.nav_tasks -> {
+                        // Já está na tela de tarefas
+                        true
+                    }
+                    R.id.nav_stats -> {
+                        val intent = Intent(this, StatisticsActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+
         // Referencia views do XML
         listView = findViewById(R.id.taskListView)
         addButton = findViewById(R.id.addButton)
@@ -249,7 +270,6 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
             }
-
             return view
         }
 

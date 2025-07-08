@@ -1,62 +1,77 @@
 package com.example.checklistkotlin
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import android.widget.TextView
-import java.time.LocalDate
-import java.time.temporal.WeekFields
-import java.util.Locale
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class StatisticsActivity : AppCompatActivity() {
 
     private lateinit var pieChart: PieChart
-    private lateinit var tvHoje: TextView
-    private lateinit var tvSemana: TextView
+    private lateinit var textViewTotal: TextView
+    private lateinit var taskStorage: TaskStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
 
         pieChart = findViewById(R.id.pieChart)
-        tvHoje = findViewById(R.id.tvHoje)
-        tvSemana = findViewById(R.id.tvSemana)
+        textViewTotal = findViewById(R.id.textViewTotal)
+        taskStorage = TaskStorage(this)
 
-        val storage = TaskStorage(this)
-        val tasks = storage.loadTasks()
+        val tasks = taskStorage.loadTasks()
+        val doneCount = tasks.count { it.done }
+        val pendingCount = tasks.count { !it.done }
 
-        // Contagem de tarefas
-        val concluidas = tasks.count { it.done }
-        val pendentes = tasks.count { !it.done }
+        // Atualiza total
+        textViewTotal.text = "Total de tarefas: ${tasks.size}"
 
-        // Gráfico de Pizza
+        // Configura gráfico
         val entries = listOf(
-            PieEntry(concluidas.toFloat(), "Concluídas"),
-            PieEntry(pendentes.toFloat(), "Pendentes")
+            PieEntry(doneCount.toFloat(), "Concluídas"),
+            PieEntry(pendingCount.toFloat(), "Pendentes")
         )
-        val dataSet = PieDataSet(entries, "Status")
-        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
-        val data = PieData(dataSet)
 
+        val dataSet = PieDataSet(entries, "")
+        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+        dataSet.valueTextSize = 14f
+        dataSet.valueTextColor = android.graphics.Color.WHITE
+
+        val data = PieData(dataSet)
         pieChart.data = data
         pieChart.description.isEnabled = false
+        pieChart.centerText = "Tarefas"
+        pieChart.setEntryLabelColor(android.graphics.Color.BLACK)
+        pieChart.setEntryLabelTextSize(14f)
         pieChart.animateY(1000)
-        pieChart.invalidate()
 
-        // Tarefas do dia
-        val hoje = LocalDate.now()
-        val tarefasHoje = tasks.count { it.date == hoje }
-        tvHoje.text = "Tarefas de hoje: $tarefasHoje"
+        val legend = pieChart.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
 
-        // Tarefas da semana
-        val semanaAtual = hoje.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
-        val tarefasSemana = tasks.count {
-            it.date.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == semanaAtual
+        // Navegação inferior
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigation.selectedItemId = R.id.nav_stats
+
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_tasks -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_stats -> true
+                else -> false
+            }
         }
-        tvSemana.text = "Tarefas da semana: $tarefasSemana"
     }
 }

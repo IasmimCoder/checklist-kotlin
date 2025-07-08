@@ -1,116 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLayout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface"
-    android:padding="16dp">
+    android:background="@color/background">
 
+    <!-- TOPO FIXO -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="103dp"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/logo_descricao"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/output_onlinepngtools" />
+        android:contentDescription="@string/logo_descricao"
+        app:srcCompat="@drawable/output_onlinepngtools"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Daily Taks"
-        android:textAlignment="center"
+        android:text="Daily Tasks"
         android:textSize="34sp"
         android:textStyle="bold"
-        android:backgroundTint="@color/textPrimary"
+        android:textAlignment="center"
         android:textColor="@color/textPrimary"
-        />
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:backgroundTint="@color/textPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="Stay organized and productive"
         android:textAlignment="center"
+        android:textStyle="italic"
         android:textColor="@color/textPrimary"
-        android:textStyle="italic" />
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp"/>
 
-    <!-- Campo para digitar a tarefa -->
+    <!-- ENTRADA DE TAREFA -->
     <EditText
         android:id="@+id/inputTask"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:backgroundTint="@color/textPrimary"
-        android:hint="Digite a tarefa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Digite uma tarefa"
         android:inputType="text"
         android:padding="12dp"
-        android:textColor="@color/textPrimary"
-        android:textColorHint="@color/textSecondary" />
+        android:backgroundTint="@color/primary"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/addButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp" />
 
     <Button
         android:id="@+id/addButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adicionar"
-        android:layout_marginTop="8dp"
+        android:text="+"
+        android:textSize="24sp"
         android:backgroundTint="@color/primary"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="@id/inputTask"
+        app:layout_constraintBottom_toBottomOf="@id/inputTask"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp" />
 
-    <!-- Filtros: Todas, Concluídas, Pendentes -->
+    <!-- FILTROS -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/filterContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/inputTask"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/filterAll"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Todas"
             android:textColor="@color/textPrimary"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:padding="8dp" />
-
-        <TextView
-            android:id="@+id/filterDone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Concluídas"
-            android:textColor="@color/textPrimary"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textSize="16sp"
             android:padding="8dp" />
 
         <TextView
             android:id="@+id/filterPending"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pendentes"
             android:textColor="@color/textPrimary"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textSize="16sp"
             android:padding="8dp" />
 
+        <TextView
+            android:id="@+id/filterDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Concluídas"
+            android:textColor="@color/textPrimary"
+            android:padding="8dp" />
     </LinearLayout>
 
-    <!-- Lista de tarefas -->
+    <!-- LISTA DE TAREFAS -->
     <ListView
         android:id="@+id/taskListView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@color/primary"
+        android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
-        android:paddingTop="8dp" />
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/filterContainer"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+    <!-- BARRA INFERIOR FIXA -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
