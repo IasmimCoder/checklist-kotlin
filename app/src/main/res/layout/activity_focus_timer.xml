@@ -20,12 +20,12 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Daily Tasks"
+            android:text="Pomodoro"
             android:textAlignment="center"
-            android:textSize="36sp"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:textColor="#3E4A59"
-            android:fontFamily="sans-serif-medium" />
+            android:backgroundTint="@color/textPrimary"
+            android:textColor="@color/textPrimary"  />
 
         <TextView
             android:id="@+id/textView"
@@ -43,12 +43,12 @@
             android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="25:00"
-            android:textSize="72sp"
-            android:textStyle="bold"
-            android:textColor="#2E3A59"
-            android:layout_marginTop="48dp"
-            android:fontFamily="sans-serif-condensed" />
+            android:textColor="#1C2833"
+            android:textSize="64sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnStartPause"
@@ -59,7 +59,7 @@
             android:textSize="18sp"
             android:textColor="#FFFFFF"
             android:backgroundTint="#4CAF50"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="100dp"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.05"
             android:background="@drawable/btn_rounded"/>
@@ -68,15 +68,15 @@
             android:id="@+id/btnReset"
             android:layout_width="220dp"
             android:layout_height="48dp"
-            android:text="Resetar"
-            android:textAllCaps="false"
-            android:textSize="18sp"
-            android:textColor="#4CAF50"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_rounded_outline"
             android:backgroundTint="#FFFFFF"
-            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.05"
-            android:background="@drawable/btn_rounded_outline"/>
+            android:text="Resetar"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </RelativeLayout>
