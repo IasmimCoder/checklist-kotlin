@@ -46,6 +46,7 @@ class StatisticsActivity : BaseActivity() {
 
         val data = PieData(dataSet)
         pieChart.data = data
+        pieChart.invalidate()
         pieChart.description.isEnabled = false
         pieChart.centerText = "Tarefas"
         pieChart.setEntryLabelColor(android.graphics.Color.BLACK)
