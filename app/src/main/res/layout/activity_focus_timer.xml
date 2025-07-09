@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:padding="24dp">
+
+    <!-- Conteúdo principal -->
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_above="@id/bottom_navigation"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Tasks"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="#3E4A59"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stay organized and productive"
+            android:textAlignment="center"
+            android:textColor="#7D8A99"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif" />
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25:00"
+            android:textSize="72sp"
+            android:textStyle="bold"
+            android:textColor="#2E3A59"
+            android:layout_marginTop="48dp"
+            android:fontFamily="sans-serif-condensed" />
+
+        <Button
+            android:id="@+id/btnStartPause"
+            android:layout_width="220dp"
+            android:layout_height="48dp"
+            android:text="Iniciar"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginTop="48dp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:background="@drawable/btn_rounded"/>
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="220dp"
+            android:layout_height="48dp"
+            android:text="Resetar"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#4CAF50"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:background="@drawable/btn_rounded_outline"/>
+
+    </LinearLayout>
+
+    <!-- Barra de navegação inferior fixa -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:itemIconTint="#4CAF50"
+        app:itemTextColor="#4CAF50"
+        app:menu="@menu/bottom_nav_menu"
+        android:elevation="8dp" />
+
+</RelativeLayout>

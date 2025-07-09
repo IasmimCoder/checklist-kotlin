@@ -27,5 +27,8 @@
         <activity
             android:name=".StatisticsActivity"
             android:exported="false" />
+
+        <!-- Nova tela de Pomodoro -->
+        <activity android:name=".FocusTimerActivity" />
     </application>
 </manifest>

@@ -55,6 +55,12 @@ class MainActivity : AppCompatActivity() {
 
             bottomNavigation.setOnItemSelectedListener { item ->
                 when (item.itemId) {
+                    R.id.nav_pomodoro -> {
+                        // Abrir a Activity Pomodoro
+                        val intent = Intent(this, FocusTimerActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
                     R.id.nav_tasks -> {
                         // Já está na tela de tarefas
                         true
