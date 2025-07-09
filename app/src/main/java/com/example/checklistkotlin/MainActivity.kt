@@ -11,7 +11,7 @@ import com.google.gson.Gson
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
     private lateinit var inputTask: EditText // campo de texto para digitar a tarefa.
@@ -47,32 +47,6 @@ class MainActivity : AppCompatActivity() {
         // exibido como a interface de usuário (UI) principal de uma Activity.
         //“Mostre a interface definida no arquivo activity_main.xml nesta tela (MainActivity).”
         setContentView(R.layout.activity_main)
-
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
-    // Marca a aba atual como selecionada (opcional)
-            bottomNavigation.selectedItemId = R.id.nav_tasks
-
-            bottomNavigation.setOnItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.nav_pomodoro -> {
-                        // Abrir a Activity Pomodoro
-                        val intent = Intent(this, FocusTimerActivity::class.java)
-                        startActivity(intent)
-                        true
-                    }
-                    R.id.nav_tasks -> {
-                        // Já está na tela de tarefas
-                        true
-                    }
-                    R.id.nav_stats -> {
-                        val intent = Intent(this, StatisticsActivity::class.java)
-                        startActivity(intent)
-                        true
-                    }
-                    else -> false
-                }
-            }
 
 
         // Referencia views do XML

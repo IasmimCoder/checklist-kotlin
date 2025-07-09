@@ -12,7 +12,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class StatisticsActivity : AppCompatActivity() {
+class StatisticsActivity : BaseActivity() {
 
     private lateinit var pieChart: PieChart
     private lateinit var textViewTotal: TextView
@@ -59,13 +59,17 @@ class StatisticsActivity : AppCompatActivity() {
         legend.setDrawInside(false)
 
         // Navegação inferior
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigation.selectedItemId = R.id.nav_stats
 
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_tasks -> {
                     val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_pomodoro -> {
+                    val intent = Intent(this, FocusTimerActivity::class.java)
                     startActivity(intent)
                     true
                 }

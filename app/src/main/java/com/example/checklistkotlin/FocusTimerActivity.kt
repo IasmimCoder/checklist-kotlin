@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 
-class FocusTimerActivity : AppCompatActivity() {
+class FocusTimerActivity : BaseActivity() {
 
     private lateinit var tvTimer: TextView
     private lateinit var btnStartPause: Button
@@ -21,6 +20,8 @@ class FocusTimerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_focus_timer)
+
+        bottomNavigation.selectedItemId = R.id.nav_pomodoro
 
         tvTimer = findViewById(R.id.tvTimer)
         btnStartPause = findViewById(R.id.btnStartPause)
@@ -53,7 +54,7 @@ class FocusTimerActivity : AppCompatActivity() {
                 btnStartPause.text = "Iniciar"
                 timeLeftInMillis = startTimeInMillis
                 updateCountDownText()
-                // Aqui você pode tocar um som ou notificação que o tempo acabou
+                // Aqui você pode tocar um som ou notificação
             }
         }.start()
 
