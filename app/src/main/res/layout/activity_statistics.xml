@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -11,14 +12,16 @@
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/textPrimary"
         android:text="Estatísticas"
-        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/textPrimary"
+        android:textSize="34sp"
         android:textStyle="bold"
-        android:textColor="#2C3E50"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop= "10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        tools:layout_editor_absoluteY="16dp" />
 
     <!-- Total de tarefas -->
     <TextView
