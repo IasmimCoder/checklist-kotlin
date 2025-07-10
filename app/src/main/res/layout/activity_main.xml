@@ -1,116 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface"
-    android:padding="16dp">
+    android:background="@color/surface">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="103dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/logo_descricao"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/output_onlinepngtools" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Daily Taks"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:backgroundTint="@color/textPrimary"
-        android:textColor="@color/textPrimary"
-        />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:backgroundTint="@color/textPrimary"
-        android:text="Stay organized and productive"
-        android:textAlignment="center"
-        android:textColor="@color/textPrimary"
-        android:textStyle="italic" />
-
-    <!-- Campo para digitar a tarefa -->
-    <EditText
-        android:id="@+id/inputTask"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:backgroundTint="@color/textPrimary"
-        android:hint="Digite a tarefa"
-        android:inputType="text"
-        android:padding="12dp"
-        android:textColor="@color/textPrimary"
-        android:textColorHint="@color/textSecondary" />
-
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Adicionar"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/primary"
-        android:textColor="@android:color/white" />
-
-    <!-- Filtros: Todas, Concluídas, Pendentes -->
+    <!-- Conteúdo principal -->
     <LinearLayout
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_above="@+id/bottom_navigation">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/logo_descricao"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/output_onlinepngtools" />
 
         <TextView
-            android:id="@+id/filterAll"
-            android:layout_width="0dp"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Todas"
-            android:textColor="@color/textPrimary"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:text="Daily Taks"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/textPrimary"
+            android:textColor="@color/textPrimary" />
 
         <TextView
-            android:id="@+id/filterDone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Concluídas"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:backgroundTint="@color/textPrimary"
+            android:text="Stay organized and productive"
+            android:textAlignment="center"
             android:textColor="@color/textPrimary"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/filterPending"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Pendentes"
+        <EditText
+            android:id="@+id/inputTask"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:backgroundTint="@color/textPrimary"
+            android:hint="Digite a tarefa"
+            android:inputType="text"
+            android:padding="12dp"
             android:textColor="@color/textPrimary"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:textColorHint="@color/textSecondary" />
 
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adicionar"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/filterAll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Todas"
+                android:textColor="@color/textPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/filterDone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Concluídas"
+                android:textColor="@color/textPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/filterPending"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Pendentes"
+                android:textColor="@color/textPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:padding="8dp" />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/taskListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@color/primary"
+            android:dividerHeight="1dp"
+            android:paddingTop="8dp" />
     </LinearLayout>
-
-    <!-- Lista de tarefas -->
-    <ListView
-        android:id="@+id/taskListView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@color/primary"
-        android:dividerHeight="1dp"
-        android:paddingTop="8dp" />
-
-</LinearLayout>
+</RelativeLayout>

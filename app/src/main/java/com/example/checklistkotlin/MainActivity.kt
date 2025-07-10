@@ -1,5 +1,6 @@
 package com.example.checklistkotlin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -7,11 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-//classe Task que armazena o texto e o status done: Boolean
-data class Task(var text: String, var done: Boolean = false)
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var listView: ListView // elemento para mostrar a lista de tarefas.
     private lateinit var inputTask: EditText // campo de texto para digitar a tarefa.
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         //“Mostre a interface definida no arquivo activity_main.xml nesta tela (MainActivity).”
         setContentView(R.layout.activity_main)
 
+
         // Referencia views do XML
         listView = findViewById(R.id.taskListView)
         addButton = findViewById(R.id.addButton)
@@ -76,18 +77,15 @@ class MainActivity : AppCompatActivity() {
         highlightFilter()
 
         //Um listener é configurado para o botão de adicionar.
-        // Quando clicado, ele verifica se o campo de texto não está vazio.
-        // Se não estiver, a tarefa é adicionada à lista e a interface é atualizada.
-        // Caso contrário, uma mensagem de erro é exibida.
         addButton.setOnClickListener {
-            val text = inputTask.text.toString().trim()
-            if (text.isNotEmpty()) {
-                tasks.add(Task(text)) // Cria nova tarefa com done = false
-                inputTask.text.clear()
-                taskStorage.saveTasks(tasks) // salva ao adicionar
-                applyFilter()
+            val text = inputTask.text.toString().trim() //Ao clicar em “Adicionar”, lemos o conteúdo de inputTask e eliminamos espaços extras.
+            if (text.isNotEmpty()) {    // Quando clicado, ele verifica se o campo de texto não está vazio.
+                tasks.add(Task(text)) // Cria um novo Task(text, done=false) e adiciona à lista tasks.
+                inputTask.text.clear() // Limpa o campo de entrada.
+                taskStorage.saveTasks(tasks) // Chama taskStorage.saveTasks(tasks) para persistir.
+                applyFilter() // Reaplica o filtro e notifica o adapter para atualizar a tela.
             } else {
-                Toast.makeText(this, "Digite uma tarefa para adicionar.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Digite uma tarefa para adicionar.", Toast.LENGTH_SHORT).show() // Caso contrário, uma mensagem de erro é exibida
             }
         }
 
@@ -219,24 +217,42 @@ class MainActivity : AppCompatActivity() {
             }
 
             viewHolder.deleteButton.setOnClickListener {
+                // Identifica qual tarefa deve ser removida, baseando-se na lista atualmente exibida (filtrada).
                 val taskToRemove = filteredTasks[position]
+                // Remove esse mesmo objeto da lista completa de tarefas.
                 tasks.remove(taskToRemove)
+
+                // Chama o filtro para atualizar a lista exibida, assim
+                // removendo visualmente o item da tela.
                 applyFilter()
-                taskStorage.saveTasks(tasks) // salva ao deletar
+
+                // Persiste essa mudança salvando a lista atualizada
+                // no SharedPreferences via TaskStorage.
+                taskStorage.saveTasks(tasks)
             }
 
             // editar tarefa com clique longo no item da lista
             view.setOnClickListener {
+                // Recupera o objeto Task que está sendo exibido naquela posição filtrada
                 val taskToEdit = filteredTasks[position]
+
+                // Busca na lista completa (“tasks”) o índice desse mesmo objeto em memória
+                // Usamos === (referência exata) para garantir que é o mesmo objeto em memória,
+                // não apenas um clone com valores iguais. Retorna a posição do primeiro elemento cujo
+                //referencial (===) seja o mesmo de taskToEdit
+                // Se não encontrar, indexOfFirst retorna -1.
                 val originalPosition = tasks.indexOfFirst { it === taskToEdit }
+
+                // Se encontrou um índice válido (>= 0), chama o diálogo de edição nesse índice
                 if (originalPosition != -1) {
                     showEditDialog(originalPosition)
-                } else {
+                }
+                // Caso contrário, algo deu errado (objeto não achado) e é exibida uma mensagem de erro
+                else {
                     Toast.makeText(this@MainActivity, "Erro ao editar tarefa", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
-
             return view
         }
 

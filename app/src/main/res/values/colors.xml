@@ -9,4 +9,7 @@
     <color name="textSecondary">#757575</color>
     <color name="doneGreen">#4CAF50</color>
     <color name="errorRed">#F44336</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="colorTaskDone">#4CAF50</color> <!-- Um verde material design -->
+    <color name="colorTaskPending">#FFC107</color> <!-- Um âmbar material design -->
 </resources>
